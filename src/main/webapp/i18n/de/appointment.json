@@ -1,0 +1,29 @@
+{
+    "testApp": {
+        "appointment" : {
+            "home": {
+                "title": "Appointments",
+                "createLabel": "Appointment erstellen",
+                "createOrEditLabel": "Appointment erstellen oder bearbeiten",
+                "search": "Suche nach Appointment"
+            },
+            "created": "Appointment erstellt mit ID {{ param }}",
+            "updated": "Appointment aktualisiert mit ID {{ param }}",
+            "deleted": "Appointment gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Appointment {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Appointment"
+            },
+            "dateTime": "Date Time",
+            "label": "Label",
+            "isRecurring": "Is Recurring",
+            "notes": "Notes",
+            "customer": "Customer",
+            "activityBooked": "Activity Booked",
+            "location": "Location",
+            "provider": "Provider"
+        }
+    }
+}

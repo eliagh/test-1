@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Δημιουργήστε ένα νέο Customer",
+                "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Customer",
+                "search": "Αναζήτηση για Customer"
+            },
+            "created": "Ένα νέο Customer έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+            "updated": "Ένα Customer έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+            "deleted": "Ένα Customer έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+            "delete": {
+                "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Customer {{ id }};"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "firstName": "First Name",
+            "midleName": "Midle Name",
+            "secondName": "Second Name",
+            "phone": "Phone",
+            "email": "Email",
+            "company": "Company"
+        }
+    }
+}

@@ -1,0 +1,78 @@
+
+<div *ngIf="activity">
+    <h2><span jhiTranslate="testApp.activity.detail.title">Activity</span> {{activity.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="testApp.activity.name">Name</span></dt>
+        <dd>
+            <span>{{activity.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.logo">Logo</span></dt>
+        <dd>
+            <div *ngIf="activity.logo">
+                <a (click)="openFile(activity.logoContentType, activity.logo)">
+                    <img [src]="'data:' + activity.logoContentType + ';base64,' + activity.logo" style="max-width: 100%;" alt="activity image"/>
+                </a>
+                {{activity.logoContentType}}, {{byteSize(activity.logo)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.description">Description</span></dt>
+        <dd>
+            <span>{{activity.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.price">Price</span></dt>
+        <dd>
+            <span>{{activity.price}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.durationMinutes">Duration Minutes</span></dt>
+        <dd>
+            <span>{{activity.durationMinutes}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.preDurationMinutes">Pre Duration Minutes</span></dt>
+        <dd>
+            <span>{{activity.preDurationMinutes}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.postDurationMinutes">Post Duration Minutes</span></dt>
+        <dd>
+            <span>{{activity.postDurationMinutes}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.isPrivate">Is Private</span></dt>
+        <dd>
+            <span>{{activity.isPrivate}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.colorCode">Color Code</span></dt>
+        <dd>
+            <span>{{activity.colorCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.cancellationPolicy">Cancellation Policy</span></dt>
+        <dd>
+            <span jhiTranslate="{{'testApp.ActivityCancellationPolicy.' + activity.cancellationPolicy}}">{{activity.cancellationPolicy}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.location">Location</span></dt>
+        <dd>
+            <span *ngFor="let location of activity.locations; let last = last">
+                <a [routerLink]="['/location', location?.id ]">{{location.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="testApp.activity.category">Category</span></dt>
+        <dd>
+            <span *ngFor="let category of activity.categories; let last = last">
+                <a [routerLink]="['/category', category?.id ]">{{category.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'activity/'+ activity.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

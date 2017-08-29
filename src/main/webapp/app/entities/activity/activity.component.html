@@ -1,0 +1,92 @@
+<div>
+    <h2>
+        <span jhiTranslate="testApp.activity.home.title">Activities</span>
+        <button class="btn btn-primary float-right jh-create-entity create-activity" [routerLink]="['/', { outlets: { popup: ['activity-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="testApp.activity.home.createLabel">
+            Create new Activity
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'testApp.activity.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="activities">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="testApp.activity.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="logo"><span jhiTranslate="testApp.activity.logo">Logo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="testApp.activity.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="price"><span jhiTranslate="testApp.activity.price">Price</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="durationMinutes"><span jhiTranslate="testApp.activity.durationMinutes">Duration Minutes</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="preDurationMinutes"><span jhiTranslate="testApp.activity.preDurationMinutes">Pre Duration Minutes</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="postDurationMinutes"><span jhiTranslate="testApp.activity.postDurationMinutes">Post Duration Minutes</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="isPrivate"><span jhiTranslate="testApp.activity.isPrivate">Is Private</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="colorCode"><span jhiTranslate="testApp.activity.colorCode">Color Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cancellationPolicy"><span jhiTranslate="testApp.activity.cancellationPolicy">Cancellation Policy</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let activity of activities ;trackBy: trackId">
+                <td><a [routerLink]="['../activity', activity.id ]">{{activity.id}}</a></td>
+                <td>{{activity.name}}</td>
+                <td>
+                    <a *ngIf="activity.logo" (click)="openFile(activity.logoContentType, activity.logo)">
+                        <img [src]="'data:' + activity.logoContentType + ';base64,' + activity.logo" style="max-height: 30px;" alt="activity image"/>
+                    </a>
+                    <span *ngIf="activity.logo">{{activity.logoContentType}}, {{byteSize(activity.logo)}}</span>
+                </td>
+                <td>{{activity.description}}</td>
+                <td>{{activity.price}}</td>
+                <td>{{activity.durationMinutes}}</td>
+                <td>{{activity.preDurationMinutes}}</td>
+                <td>{{activity.postDurationMinutes}}</td>
+                <td>{{activity.isPrivate}}</td>
+                <td>{{activity.colorCode}}</td>
+                <td jhiTranslate="{{'testApp.ActivityCancellationPolicy.' + activity.cancellationPolicy}}">{{activity.cancellationPolicy}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../activity', activity.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'activity/'+ activity.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'activity/'+ activity.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

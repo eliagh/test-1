@@ -10,6 +10,14 @@
                 "bankAccount": "ContBancar",
                 "label": "Etichetă",
                 "operation": "Operație",
+                "company": "Company",
+                "location": "Location",
+                "item": "Item",
+                "inventory": "Inventory",
+                "category": "Category",
+                "activity": "Activity",
+                "appointment": "Appointment",
+                "customer": "Customer",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

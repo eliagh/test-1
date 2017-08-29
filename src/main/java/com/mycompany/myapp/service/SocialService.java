@@ -1,10 +1,9 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Authority;
-import com.mycompany.myapp.domain.User;
-import com.mycompany.myapp.repository.AuthorityRepository;
-import com.mycompany.myapp.repository.UserRepository;
-import com.mycompany.myapp.repository.search.UserSearchRepository;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,10 +16,12 @@ import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.AuthorityRepository;
+import com.mycompany.myapp.repository.CustomSocialConnectionRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.repository.search.UserSearchRepository;
 
 @Service
 public class SocialService {
@@ -54,10 +55,10 @@ public class SocialService {
     public void deleteUserSocialConnection(String login) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(login);
         connectionRepository.findAllConnections().keySet().stream()
-            .forEach(providerId -> {
-                connectionRepository.removeConnections(providerId);
-                log.debug("Delete user social connection providerId: {}", providerId);
-            });
+                .forEach(providerId -> {
+                    connectionRepository.removeConnections(providerId);
+                    log.debug("Delete user social connection providerId: {}", providerId);
+                });
     }
 
     public void createSocialUser(Connection<?> connection, String langKey) {
@@ -69,7 +70,7 @@ public class SocialService {
         String providerId = connection.getKey().getProviderId();
         String imageUrl = connection.getImageUrl();
         User user = createUserIfNotExist(userProfile, langKey, providerId, imageUrl);
-        createSocialConnection(user.getLogin(), connection);
+        createSocialConnection(user, connection);
         mailService.sendSocialRegistrationValidationEmail(user, providerId);
     }
 
@@ -121,15 +122,15 @@ public class SocialService {
      */
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
         switch (providerId) {
-            case "twitter":
-                return userProfile.getUsername().toLowerCase();
-            default:
-                return userProfile.getEmail();
+        case "twitter":
+            return userProfile.getUsername().toLowerCase();
+        default:
+            return userProfile.getEmail();
         }
     }
 
-    private void createSocialConnection(String login, Connection<?> connection) {
-        ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(login);
-        connectionRepository.addConnection(connection);
+    private void createSocialConnection(User user, Connection<?> connection) {
+        CustomSocialConnectionRepository connectionRepository = (CustomSocialConnectionRepository) usersConnectionRepository.createConnectionRepository(user.getLogin());
+        connectionRepository.addConnection(user.getId(), connection);
     }
 }

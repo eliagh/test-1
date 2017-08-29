@@ -1,0 +1,11 @@
+{
+    "testApp": {
+        "ItemUnit" : {
+            "null": "",
+            "PIECE": "PIECE",
+            "G": "G",
+            "KG": "KG",
+            "LITER": "LITER"
+        }
+    }
+}

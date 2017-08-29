@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "item" : {
+            "home": {
+                "title": "Items",
+                "createLabel": "Δημιουργήστε ένα νέο Item",
+                "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Item",
+                "search": "Αναζήτηση για Item"
+            },
+            "created": "Ένα νέο Item έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+            "updated": "Ένα Item έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+            "deleted": "Ένα Item έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+            "delete": {
+                "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Item {{ id }};"
+            },
+            "detail": {
+                "title": "Item"
+            },
+            "name": "Name",
+            "pricePerUnit": "Price Per Unit",
+            "unit": "Unit",
+            "code": "Code",
+            "description": "Description",
+            "company": "Company"
+        }
+    }
+}

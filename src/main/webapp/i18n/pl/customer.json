@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Dodaj Customer",
+                "createOrEditLabel": "Dodaj lub edytuj: Customer",
+                "search": "Szukaj Customer"
+            },
+            "created": "Utworzono nowy Customer z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono Customer z identyfikatorem {{ param }}",
+            "deleted": "Usunięto Customer z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "firstName": "First Name",
+            "midleName": "Midle Name",
+            "secondName": "Second Name",
+            "phone": "Phone",
+            "email": "Email",
+            "company": "Company"
+        }
+    }
+}

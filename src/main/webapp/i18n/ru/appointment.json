@@ -1,0 +1,29 @@
+{
+    "testApp": {
+        "appointment" : {
+            "home": {
+                "title": "Appointments",
+                "createLabel": "Создать новый Appointment",
+                "createOrEditLabel": "Создать или отредактировать Appointment",
+                "search": "Найти Appointment"
+            },
+            "created": "Новый Appointment создан с идентификатором {{ param }}",
+            "updated": "Appointment обновлен с идентификатором {{ param }}",
+            "deleted": "Appointment удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Appointment {{ id }}?"
+            },
+            "detail": {
+                "title": "Appointment"
+            },
+            "dateTime": "Date Time",
+            "label": "Label",
+            "isRecurring": "Is Recurring",
+            "notes": "Notes",
+            "customer": "Customer",
+            "activityBooked": "Activity Booked",
+            "location": "Location",
+            "provider": "Provider"
+        }
+    }
+}

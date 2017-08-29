@@ -401,6 +401,7 @@ public class CustomSocialUsersConnectionRepositoryIntTest {
                                                                     String refreshToken,
                                                                     Long expireTime) {
         SocialUserConnection socialUserConnectionToSabe = new SocialUserConnection(
+                1L,
             userId,
             providerId,
             providerUserId,

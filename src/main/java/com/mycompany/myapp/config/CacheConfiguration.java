@@ -44,6 +44,16 @@ public class CacheConfiguration {
             cm.createCache(com.mycompany.myapp.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Company.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Location.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Item.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Inventory.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Category.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Activity.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Activity.class.getName() + ".locations", jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Activity.class.getName() + ".categories", jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Appointment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Customer.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

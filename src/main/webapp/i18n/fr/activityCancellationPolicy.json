@@ -1,0 +1,12 @@
+{
+    "testApp": {
+        "ActivityCancellationPolicy" : {
+            "null": "",
+            "NEVER": "NEVER",
+            "ANY_TIME": "ANY_TIME",
+            "HOUR_1": "HOUR_1",
+            "HOUR_2": "HOUR_2",
+            "HOUR_3": "HOUR_3"
+        }
+    }
+}

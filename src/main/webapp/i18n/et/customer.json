@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Lisa uus Customer",
+                "createOrEditLabel": "Lisa või muuda Customer",
+                "search": "Otsi Customer"
+            },
+            "created": "Uus Customer on loodud identifikaatoriga {{ param }}",
+            "updated": "Customer identifikaatoriga {{ param }} on muudetud",
+            "deleted": "Customer identifikaatoriga {{ param }} on kustutatud",
+            "delete": {
+                "question": "Kas olete kindel, et soovite kustutada Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "firstName": "First Name",
+            "midleName": "Midle Name",
+            "secondName": "Second Name",
+            "phone": "Phone",
+            "email": "Email",
+            "company": "Company"
+        }
+    }
+}

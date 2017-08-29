@@ -1,12 +1,18 @@
 package com.mycompany.myapp.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Social user.
@@ -19,7 +25,6 @@ public class SocialUserConnection implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -60,18 +65,22 @@ public class SocialUserConnection implements Serializable {
     @Column(name = "expire_time")
     private Long expireTime;
 
-    public SocialUserConnection() {}
-    public SocialUserConnection(String userId,
-                                String providerId,
-                                String providerUserId,
-                                Long rank,
-                                String displayName,
-                                String profileURL,
-                                String imageURL,
-                                String accessToken,
-                                String secret,
-                                String refreshToken,
-                                Long expireTime) {
+    public SocialUserConnection() {
+    }
+
+    public SocialUserConnection(Long id,
+            String userId,
+            String providerId,
+            String providerUserId,
+            Long rank,
+            String displayName,
+            String profileURL,
+            String imageURL,
+            String accessToken,
+            String secret,
+            String refreshToken,
+            Long expireTime) {
+        this.id = id;
         this.userId = userId;
         this.providerId = providerId;
         this.providerUserId = providerUserId;
@@ -207,18 +216,18 @@ public class SocialUserConnection implements Serializable {
     @Override
     public String toString() {
         return "SocialUserConnection{" +
-            "id=" + id +
-            ", userId=" + userId +
-            ", providerId='" + providerId + '\'' +
-            ", providerUserId='" + providerUserId + '\'' +
-            ", rank=" + rank +
-            ", displayName='" + displayName + '\'' +
-            ", profileURL='" + profileURL + '\'' +
-            ", imageURL='" + imageURL + '\'' +
-            ", accessToken='" + accessToken + '\'' +
-            ", secret='" + secret + '\'' +
-            ", refreshToken='" + refreshToken + '\'' +
-            ", expireTime=" + expireTime +
-            '}';
+                "id=" + id +
+                ", userId=" + userId +
+                ", providerId='" + providerId + '\'' +
+                ", providerUserId='" + providerUserId + '\'' +
+                ", rank=" + rank +
+                ", displayName='" + displayName + '\'' +
+                ", profileURL='" + profileURL + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", accessToken='" + accessToken + '\'' +
+                ", secret='" + secret + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", expireTime=" + expireTime +
+                '}';
     }
 }

@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Creeare o nouă entitate Customer",
+                "createOrEditLabel": "Creeare sau editare Customer",
+                "search": "Căutare după Customer"
+            },
+            "created": "A fost creată o nouă entitate Customer cu identificatorul {{ param }}",
+            "updated": "Customer cu identificatorul {{ param }} a fost actualizată",
+            "deleted": "Customer cu identificatorul {{ param }} a fost ștearsă",
+            "delete": {
+                "question": "Sunteți sigur că doriți să ștergeți Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "firstName": "First Name",
+            "midleName": "Midle Name",
+            "secondName": "Second Name",
+            "phone": "Phone",
+            "email": "Email",
+            "company": "Company"
+        }
+    }
+}

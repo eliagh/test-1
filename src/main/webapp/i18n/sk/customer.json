@@ -1,0 +1,27 @@
+{
+    "testApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Pridať Customer",
+                "createOrEditLabel": "Pridať alebo upraviť Customer",
+                "search": "Vyhľadať Customer"
+            },
+            "created": "Bol vytvorený potomok entity Customer s identifikátorom {{ param }}",
+            "updated": "Potomok entity Customer s identifikátorom {{ param }} bol upravený.",
+            "deleted": "Potomok entity Customer s identifikátorom {{ param }} bol vymazaný.",
+            "delete": {
+                "question": "Ste si istý, že chcete vymazať Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "firstName": "First Name",
+            "midleName": "Midle Name",
+            "secondName": "Second Name",
+            "phone": "Phone",
+            "email": "Email",
+            "company": "Company"
+        }
+    }
+}

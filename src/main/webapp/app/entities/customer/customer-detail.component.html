@@ -1,0 +1,47 @@
+
+<div *ngIf="customer">
+    <h2><span jhiTranslate="testApp.customer.detail.title">Customer</span> {{customer.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="testApp.customer.firstName">First Name</span></dt>
+        <dd>
+            <span>{{customer.firstName}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.customer.midleName">Midle Name</span></dt>
+        <dd>
+            <span>{{customer.midleName}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.customer.secondName">Second Name</span></dt>
+        <dd>
+            <span>{{customer.secondName}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.customer.phone">Phone</span></dt>
+        <dd>
+            <span>{{customer.phone}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.customer.email">Email</span></dt>
+        <dd>
+            <span>{{customer.email}}</span>
+        </dd>
+        <dt><span jhiTranslate="testApp.customer.company">Company</span></dt>
+        <dd>
+            <div *ngIf="customer.company">
+                <a [routerLink]="['/company', customer.company?.id]">{{customer.company?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'customer/'+ customer.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
