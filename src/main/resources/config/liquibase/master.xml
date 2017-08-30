@@ -14,6 +14,7 @@
     <include file="config/liquibase/changelog/20170829181935_added_entity_Appointment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170829181936_added_entity_Customer.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20170829181929_added_entity_constraints_User.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170829181930_added_entity_constraints_Location.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170829181931_added_entity_constraints_Item.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170829181932_added_entity_constraints_Inventory.xml" relativeToChangelogFile="false"/>

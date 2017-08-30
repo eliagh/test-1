@@ -1,8 +1,7 @@
 package com.mycompany.myapp.domain;
 
-import com.mycompany.myapp.config.Constants;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mycompany.myapp.config.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -10,16 +9,24 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.time.Instant;
 
 /**
  * A user.
@@ -45,7 +52,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @NotNull
     @Size(min = 60, max = 60)
-    @Column(name = "password_hash",length = 60)
+    @Column(name = "password_hash", length = 60)
     private String password;
 
     @Size(max = 50)
@@ -85,6 +92,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+
+    @Column(name = "company_id")
+    private Long companyId;
 
     @JsonIgnore
     @ManyToMany
@@ -178,12 +188,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     public Instant getResetDate() {
-       return resetDate;
+        return resetDate;
     }
 
     public void setResetDate(Instant resetDate) {
-       this.resetDate = resetDate;
+        this.resetDate = resetDate;
     }
+
     public String getLangKey() {
         return langKey;
     }
@@ -198,6 +209,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     @Override
@@ -229,6 +248,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
+            ", companyId='" + companyId + '\'' +
             "}";
     }
 }

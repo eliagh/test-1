@@ -20,6 +20,7 @@ public final class SecurityUtils {
      */
     public static String getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
+
         Authentication authentication = securityContext.getAuthentication();
         String userName = null;
         if (authentication != null) {
@@ -30,8 +31,25 @@ public final class SecurityUtils {
                 userName = (String) authentication.getPrincipal();
             }
         }
+
         return userName;
     }
+    //
+    // /**
+    // * Get the companyId of the current user.
+    // *
+    // * @return the companyId of the current user
+    // */
+    // public static Long getCompanyId() {
+    // SecurityContext securityContext = SecurityContextHolder.getContext();
+    //
+    // Authentication authentication = securityContext.getAuthentication();
+    // if (authentication != null && authentication.getCredentials() instanceof String) {
+    // return (String) authentication.getCredentials();
+    // }
+    //
+    // return null;
+    // }
 
     /**
      * Get the JWT of the current user.
@@ -40,10 +58,12 @@ public final class SecurityUtils {
      */
     public static String getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
+
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null && authentication.getCredentials() instanceof String) {
             return (String) authentication.getCredentials();
         }
+
         return null;
     }
 
@@ -54,11 +74,13 @@ public final class SecurityUtils {
      */
     public static boolean isAuthenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
+
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
             return authentication.getAuthorities().stream()
-                .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(AuthoritiesConstants.ANONYMOUS));
+                    .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(AuthoritiesConstants.ANONYMOUS));
         }
+
         return false;
     }
 
@@ -67,16 +89,20 @@ public final class SecurityUtils {
      * <p>
      * The name of this method comes from the isUserInRole() method in the Servlet API
      *
-     * @param authority the authority to check
+     * @param authority
+     *            the authority to check
      * @return true if the current user has the authority, false otherwise
      */
     public static boolean isCurrentUserInRole(String authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
+
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
             return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
         }
+
         return false;
     }
+
 }

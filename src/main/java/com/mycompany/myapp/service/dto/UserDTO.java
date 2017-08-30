@@ -1,14 +1,13 @@
 package com.mycompany.myapp.service.dto;
 
 import com.mycompany.myapp.config.Constants;
-
 import com.mycompany.myapp.domain.Authority;
 import com.mycompany.myapp.domain.User;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,6 +52,8 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Long companyId;
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -62,13 +63,13 @@ public class UserDTO {
             user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()), user.getCompanyId());
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
-        String email, boolean activated, String imageUrl, String langKey,
-        String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-        Set<String> authorities) {
+                   String email, boolean activated, String imageUrl, String langKey,
+                   String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
+                   Set<String> authorities, Long companyId) {
 
         this.id = id;
         this.login = login;
@@ -83,6 +84,7 @@ public class UserDTO {
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
+        this.companyId = companyId;
     }
 
     public Long getId() {
@@ -149,6 +151,14 @@ public class UserDTO {
         return authorities;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -164,6 +174,8 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", companyId='" + companyId + '\'' +
             "}";
     }
+
 }

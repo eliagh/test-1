@@ -36,7 +36,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/test?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password: alexalex
+        password: boschbosch
         hikari:
             data-source-properties:
                 cachePrepStmts: true

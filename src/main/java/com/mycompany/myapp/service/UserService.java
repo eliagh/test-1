@@ -1,15 +1,12 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Authority;
-import com.mycompany.myapp.domain.User;
-import com.mycompany.myapp.repository.AuthorityRepository;
-import com.mycompany.myapp.config.Constants;
-import com.mycompany.myapp.repository.UserRepository;
-import com.mycompany.myapp.repository.search.UserSearchRepository;
-import com.mycompany.myapp.security.AuthoritiesConstants;
-import com.mycompany.myapp.security.SecurityUtils;
-import com.mycompany.myapp.service.util.RandomUtil;
-import com.mycompany.myapp.service.dto.UserDTO;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.mycompany.myapp.config.Constants;
+import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.AuthorityRepository;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.repository.search.UserSearchRepository;
+import com.mycompany.myapp.security.AuthoritiesConstants;
+import com.mycompany.myapp.security.SecurityUtils;
+import com.mycompany.myapp.service.dto.UserDTO;
+import com.mycompany.myapp.service.util.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -122,6 +125,7 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setImageUrl(userDTO.getImageUrl());
+        user.setCompanyId(userDTO.getCompanyId());
         if (userDTO.getLangKey() == null) {
             user.setLangKey("en"); // default language
         } else {
@@ -183,6 +187,7 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
+                    user.setCompanyId(userDTO.getCompanyId());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream()

@@ -71,13 +71,13 @@ spring:
     social:
         # see https://developers.google.com/+/web/signin/server-side-flow#step_1_create_a_client_id_and_client_secret
         google:
-            client-id: ${GMAIL_CLIENT_ID}
-            client-secret: ${GMAIL_CLIENT_SECRET}
+            client-id: kkk
+            client-secret: kkkk
 
         # see https://developers.facebook.com/docs/facebook-login/v2.2
         facebook:
-            client-id: ${FB_CLIENT_ID}
-            client-secret: ${FB_CLIENT_SECRET}
+            client-id: kkkk
+            client-secret: kkk
 
         # see https://apps.twitter.com/app/
         twitter:
