@@ -1,9 +1,11 @@
 package com.mycompany.myapp.security.jwt;
 
-import com.mycompany.myapp.security.AuthoritiesConstants;
-import io.github.jhipster.config.JHipsterProperties;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -13,11 +15,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import com.mycompany.myapp.security.AuthoritiesConstants;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.jhipster.config.JHipsterProperties;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class TokenProviderTest {
 
@@ -44,7 +46,7 @@ public class TokenProviderTest {
     @Test
     public void testReturnFalseWhenJWTisMalformed() {
         Authentication authentication = createAuthentication();
-        String token = tokenProvider.createToken(authentication, false);
+        String token = tokenProvider.createToken(authentication, false, null);
         String invalidToken = token.substring(1);
         boolean isTokenValid = tokenProvider.validateToken(invalidToken);
 
@@ -56,7 +58,7 @@ public class TokenProviderTest {
         ReflectionTestUtils.setField(tokenProvider, "tokenValidityInMilliseconds", -ONE_MINUTE);
 
         Authentication authentication = createAuthentication();
-        String token = tokenProvider.createToken(authentication, false);
+        String token = tokenProvider.createToken(authentication, false, null);
 
         boolean isTokenValid = tokenProvider.validateToken(token);
 
@@ -87,16 +89,16 @@ public class TokenProviderTest {
 
     private String createUnsupportedToken() {
         return Jwts.builder()
-            .setPayload("payload")
-            .signWith(SignatureAlgorithm.HS512, secretKey)
-            .compact();
+                .setPayload("payload")
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
     }
 
     private String createTokenWithDifferentSignature() {
         return Jwts.builder()
-            .setSubject("anonymous")
-            .signWith(SignatureAlgorithm.HS512, "e5c9ee274ae87bc031adda32e27fa98b9290da90")
-            .setExpiration(new Date(new Date().getTime() + ONE_MINUTE))
-            .compact();
+                .setSubject("anonymous")
+                .signWith(SignatureAlgorithm.HS512, "e5c9ee274ae87bc031adda32e27fa98b9290da90")
+                .setExpiration(new Date(new Date().getTime() + ONE_MINUTE))
+                .compact();
     }
 }

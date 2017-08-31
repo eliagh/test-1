@@ -1,7 +1,9 @@
 package com.mycompany.myapp.security.jwt;
 
-import com.mycompany.myapp.security.AuthoritiesConstants;
-import io.github.jhipster.config.JHipsterProperties;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -13,12 +15,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Collections;
+import com.mycompany.myapp.security.AuthoritiesConstants;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.jhipster.config.JHipsterProperties;
 
 public class JWTFilterTest {
-
 
     private TokenProvider tokenProvider;
 
@@ -37,11 +38,10 @@ public class JWTFilterTest {
     @Test
     public void testJWTFilter() throws Exception {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-            "test-user",
-            "test-password",
-            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
-        );
-        String jwt = tokenProvider.createToken(authentication, false);
+                "test-user",
+                "test-password",
+                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER)));
+        String jwt = tokenProvider.createToken(authentication, false, null);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
         request.setRequestURI("/api/test");
@@ -92,11 +92,10 @@ public class JWTFilterTest {
     @Test
     public void testJWTFilterWrongScheme() throws Exception {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-            "test-user",
-            "test-password",
-            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
-        );
-        String jwt = tokenProvider.createToken(authentication, false);
+                "test-user",
+                "test-password",
+                Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER)));
+        String jwt = tokenProvider.createToken(authentication, false, null);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Basic " + jwt);
         request.setRequestURI("/api/test");

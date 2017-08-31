@@ -1,10 +1,9 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.TestApp;
-import com.mycompany.myapp.domain.User;
-import com.mycompany.myapp.repository.UserRepository;
-import com.mycompany.myapp.security.jwt.TokenProvider;
-import com.mycompany.myapp.web.rest.vm.LoginVM;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.mycompany.myapp.TestApp;
+import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.UserRepository;
+import com.mycompany.myapp.security.jwt.TokenProvider;
+import com.mycompany.myapp.web.rest.vm.LoginVM;
 
 /**
  * Test class for the UserJWTController REST controller.
@@ -46,9 +47,9 @@ public class UserJWTControllerIntTest {
 
     @Before
     public void setup() {
-        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager);
+        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager, null);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userJWTController)
-            .build();
+                .build();
     }
 
     @Test
@@ -66,11 +67,11 @@ public class UserJWTControllerIntTest {
         login.setUsername("user-jwt-controller");
         login.setPassword("test");
         mockMvc.perform(post("/api/authenticate")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(login)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id_token").isString())
-            .andExpect(jsonPath("$.id_token").isNotEmpty());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(login)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id_token").isString())
+                .andExpect(jsonPath("$.id_token").isNotEmpty());
     }
 
     @Test
@@ -89,11 +90,11 @@ public class UserJWTControllerIntTest {
         login.setPassword("test");
         login.setRememberMe(true);
         mockMvc.perform(post("/api/authenticate")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(login)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id_token").isString())
-            .andExpect(jsonPath("$.id_token").isNotEmpty());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(login)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id_token").isString())
+                .andExpect(jsonPath("$.id_token").isNotEmpty());
     }
 
     @Test
@@ -103,9 +104,9 @@ public class UserJWTControllerIntTest {
         login.setUsername("wrong-user");
         login.setPassword("wrong password");
         mockMvc.perform(post("/api/authenticate")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(login)))
-            .andExpect(status().isUnauthorized())
-            .andExpect(jsonPath("$.id_token").doesNotExist());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(login)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.id_token").doesNotExist());
     }
 }

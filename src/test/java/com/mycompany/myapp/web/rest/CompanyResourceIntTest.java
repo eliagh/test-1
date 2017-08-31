@@ -1,12 +1,18 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.TestApp;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.mycompany.myapp.domain.Company;
-import com.mycompany.myapp.repository.CompanyRepository;
-import com.mycompany.myapp.service.CompanyService;
-import com.mycompany.myapp.repository.search.CompanySearchRepository;
-import com.mycompany.myapp.web.rest.errors.ExceptionTranslator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,13 +29,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.mycompany.myapp.TestApp;
+import com.mycompany.myapp.domain.Company;
+import com.mycompany.myapp.repository.CompanyRepository;
+import com.mycompany.myapp.repository.search.CompanySearchRepository;
+import com.mycompany.myapp.service.CompanyService;
+import com.mycompany.myapp.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the CompanyResource REST controller.
@@ -79,11 +84,11 @@ public class CompanyResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CompanyResource companyResource = new CompanyResource(companyService);
+        final CompanyResource companyResource = new CompanyResource(companyService, null, null);
         this.restCompanyMockMvc = MockMvcBuilders.standaloneSetup(companyResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -94,10 +99,10 @@ public class CompanyResourceIntTest {
      */
     public static Company createEntity(EntityManager em) {
         Company company = new Company()
-            .name(DEFAULT_NAME)
-            .logo(DEFAULT_LOGO)
-            .logoContentType(DEFAULT_LOGO_CONTENT_TYPE)
-            .thema(DEFAULT_THEMA);
+                .name(DEFAULT_NAME)
+                .logo(DEFAULT_LOGO)
+                .logoContentType(DEFAULT_LOGO_CONTENT_TYPE)
+                .thema(DEFAULT_THEMA);
         return company;
     }
 
@@ -114,9 +119,9 @@ public class CompanyResourceIntTest {
 
         // Create the Company
         restCompanyMockMvc.perform(post("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(company)))
+                .andExpect(status().isCreated());
 
         // Validate the Company in the database
         List<Company> companyList = companyRepository.findAll();
@@ -142,9 +147,9 @@ public class CompanyResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCompanyMockMvc.perform(post("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(company)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Company> companyList = companyRepository.findAll();
@@ -161,9 +166,9 @@ public class CompanyResourceIntTest {
         // Create the Company, which fails.
 
         restCompanyMockMvc.perform(post("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(company)))
+                .andExpect(status().isBadRequest());
 
         List<Company> companyList = companyRepository.findAll();
         assertThat(companyList).hasSize(databaseSizeBeforeTest);
@@ -179,9 +184,9 @@ public class CompanyResourceIntTest {
         // Create the Company, which fails.
 
         restCompanyMockMvc.perform(post("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(company)))
+                .andExpect(status().isBadRequest());
 
         List<Company> companyList = companyRepository.findAll();
         assertThat(companyList).hasSize(databaseSizeBeforeTest);
@@ -195,13 +200,13 @@ public class CompanyResourceIntTest {
 
         // Get all the companyList
         restCompanyMockMvc.perform(get("/api/companies?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
-            .andExpect(jsonPath("$.[*].thema").value(hasItem(DEFAULT_THEMA.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+                .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+                .andExpect(jsonPath("$.[*].thema").value(hasItem(DEFAULT_THEMA.toString())));
     }
 
     @Test
@@ -212,13 +217,13 @@ public class CompanyResourceIntTest {
 
         // Get the company
         restCompanyMockMvc.perform(get("/api/companies/{id}", company.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(company.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.logoContentType").value(DEFAULT_LOGO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)))
-            .andExpect(jsonPath("$.thema").value(DEFAULT_THEMA.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(company.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+                .andExpect(jsonPath("$.logoContentType").value(DEFAULT_LOGO_CONTENT_TYPE))
+                .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)))
+                .andExpect(jsonPath("$.thema").value(DEFAULT_THEMA.toString()));
     }
 
     @Test
@@ -226,7 +231,7 @@ public class CompanyResourceIntTest {
     public void getNonExistingCompany() throws Exception {
         // Get the company
         restCompanyMockMvc.perform(get("/api/companies/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -240,15 +245,15 @@ public class CompanyResourceIntTest {
         // Update the company
         Company updatedCompany = companyRepository.findOne(company.getId());
         updatedCompany
-            .name(UPDATED_NAME)
-            .logo(UPDATED_LOGO)
-            .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
-            .thema(UPDATED_THEMA);
+                .name(UPDATED_NAME)
+                .logo(UPDATED_LOGO)
+                .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
+                .thema(UPDATED_THEMA);
 
         restCompanyMockMvc.perform(put("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedCompany)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedCompany)))
+                .andExpect(status().isOk());
 
         // Validate the Company in the database
         List<Company> companyList = companyRepository.findAll();
@@ -273,9 +278,9 @@ public class CompanyResourceIntTest {
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restCompanyMockMvc.perform(put("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(company)))
+                .andExpect(status().isCreated());
 
         // Validate the Company in the database
         List<Company> companyList = companyRepository.findAll();
@@ -292,8 +297,8 @@ public class CompanyResourceIntTest {
 
         // Get the company
         restCompanyMockMvc.perform(delete("/api/companies/{id}", company.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean companyExistsInEs = companySearchRepository.exists(company.getId());
@@ -312,13 +317,13 @@ public class CompanyResourceIntTest {
 
         // Search the company
         restCompanyMockMvc.perform(get("/api/_search/companies?query=id:" + company.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
-            .andExpect(jsonPath("$.[*].thema").value(hasItem(DEFAULT_THEMA.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+                .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+                .andExpect(jsonPath("$.[*].thema").value(hasItem(DEFAULT_THEMA.toString())));
     }
 
     @Test
